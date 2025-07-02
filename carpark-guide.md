@@ -390,11 +390,16 @@ For example, you may want to see the number of available bays, the current tempe
 Now consider, between the `CarPark`, `Sensor`, and `Display` classes, which class is responsible for each piece of information? There's no right or wrong answer here. But you should be able to justify your answer.
 
 >Q. Which class is responsible for the number of available bays (and why)?
->
+> 
+>I think the CarPark class should handle this because it tracks both capacity and current vehicles. It can calculate available bays directly without needing external input.
+> 
 >Q. Which class is responsible for the current temperature (and why)?
->
+> 
+>Possibly a Sensor class, since it's meant to detect environmental changes. If we were building a real system, I’d imagine a TemperatureSensor subclass providing this.
+> 
 >Q. Which class is responsible for the time (and why)?
->
+> 
+> This could be handled outside the core classes (e.g., by the system clock), or perhaps by a time-aware Sensor if we needed that information displayed dynamically.
 --------
 
 ##### 2.7.3.1. Detour: implement available bays
@@ -467,26 +472,26 @@ This time, we will push the tag to the remote repository:
 
 Add a screenshot of the GitHub repository after pushing the tag, showing the CarPark class with the new methods:
 
-```markdown
-![Added methods to the car park class](screenshots/methods-to-car-park.png)
-```
+
+![Added methods to the car park class](screenshots/Methods-to-car-park.png)
+
 
 Answer the following questions:
 > **Review Questions**
 >
 > 1. **Which class is responsible for each of the following pieces of information (and why)?**
 >    - *The number of available bays*
->      `Answer here...`
+>      `The CarPark class, because it manages the capacity and the list of registered plate numbers used to calculate how many bays remain.`
 >    - *The current temperature*
->      `Answer here...`
+>      `The Sensor class would be best suited if this feature was implemented. It’s designed to interact with the environment and provide real-time data, which includes temperature in extended systems.`
 >    - *The time*
->      `Answer here...`
+>      `This could also be the role of a Sensor or an external system module. Since time isn’t managed internally by CarPark, a dedicated time-aware sensor or system clock integration would be the most accurate and reusable approach.`
 >
 > 2. **What is the difference between an attribute and a property?**
->    `Answer here...`
+>    `An attribute is a value that’s directly stored in an object, like capacity or location. A property is a method that looks like a variable when accessed, but runs logic behind the scenes — for example, available_bays calculates a value instead of storing it.`
 >
 > 3. **Why do you think we used a dictionary to hold the data we passed the display? List at least one advantage and one disadvantage of this approach.**
->    `Answer here...`
+>    `Because it’s flexible and we can pass multiple types of data (like bays, temperature, time) without changing the method signature.`
 
 #### 2.7.5. Add a detect vehicle method to the Sensor class
 
