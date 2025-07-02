@@ -1,5 +1,5 @@
 import unittest
-from src.car_park import CarPark  # Adjust path if needed
+from src.car_park import CarPark
 
 class TestCarPark(unittest.TestCase):
       def setUp(self):

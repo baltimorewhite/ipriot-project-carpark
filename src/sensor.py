@@ -32,9 +32,3 @@ class ExitSensor(Sensor):
         self.car_park_reference.remove_car(plate_number)
 
 
-class ExitSensor(Sensor):
-    """
-    Specialized sensor class for detecting vehicles exiting the car park.
-    """
-    pass
-
