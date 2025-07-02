@@ -1,5 +1,5 @@
 import unittest
-from car_park import CarPark
+from src.car_park import CarPark  # Adjust path if needed
 
 class TestCarPark(unittest.TestCase):
       def setUp(self):
@@ -9,19 +9,19 @@ class TestCarPark(unittest.TestCase):
          self.assertIsInstance(self.car_park, CarPark)
          self.assertEqual(self.car_park.location, "123 Example Street")
          self.assertEqual(self.car_park.capacity, 100)
-         self.assertEqual(self.car_park.plates, [])
-         self.assertEqual(self.car_park.displays, [])
+         self.assertEqual(self.car_park.registered_plate_numbers, [])
+         self.assertEqual(self.car_park.registered_displays, [])
          self.assertEqual(self.car_park.available_bays, 100)
 
       def test_add_car(self):
          self.car_park.add_car("FAKE-001")
-         self.assertEqual(self.car_park.plates, ["FAKE-001"])
+         self.assertEqual(self.car_park.registered_plate_numbers, ["FAKE-001"])
          self.assertEqual(self.car_park.available_bays, 99)
 
       def test_remove_car(self):
          self.car_park.add_car("FAKE-001")
          self.car_park.remove_car("FAKE-001")
-         self.assertEqual(self.car_park.plates, [])
+         self.assertEqual(self.car_park.registered_plate_numbers, [])
          self.assertEqual(self.car_park.available_bays, 100)
 
       def test_overfill_the_car_park(self):
@@ -43,3 +43,4 @@ class TestCarPark(unittest.TestCase):
 
 if __name__ == "__main__":
    unittest.main()
+

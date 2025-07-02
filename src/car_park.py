@@ -30,7 +30,7 @@ class CarPark:
 
     def __str__(self):
         """
-        Returns a              summary of the car park.
+        Returns a summary of the car park.
         """
         return f"Car park located at {self.location}, with a total capacity of {self.capacity} bays."
 
