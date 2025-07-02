@@ -1,35 +1,33 @@
 class Display:
     """
-    Represents a display screen that shows dynamic messages about car park status.
+    Represents a display unit in the car park that shows real-time information.
     """
 
-    def __init__(self, display_identifier, message_text="", is_display_on=False):
+    def __init__(self, location):
         """
-        Initialize a new Display object.
+        Initializes the display with its location and a blank message.
 
-        :param display_identifier: Unique ID used to identify this display.
-        :param message_text: The message currently shown on the display.
-        :param is_display_on: Boolean indicating whether the display is currently active.
+        :param location: The physical location of the display (e.g., 'Gate A').
         """
-        self.display_identifier = display_identifier
-        self.message_text = message_text
-        self.is_display_on = is_display_on
+        self.location = location
+        self.message = ""
 
     def update(self, data_dictionary):
         """
-        Updates the display's message using values from the provided data dictionary.
+        Updates the display message based on the data received from the CarPark.
 
-        :param data_dictionary: Dictionary with display data, e.g., {'available_bays': 5}.
-        :raises TypeError: If the input is not a dictionary.
+        :param data_dictionary: A dictionary containing data like available bays, temperature, and time.
         """
-        if not isinstance(data_dictionary, dict):
-            raise TypeError("Data provided to Display.update must be a dictionary.")
+        display_parts = []
 
-        available_bays = data_dictionary.get("available_bays", "Unknown")
-        self.message_text = f"Available bays: {available_bays}"
+        if "available_bays" in data_dictionary:
+            display_parts.append(f"Available bays: {data_dictionary['available_bays']}")
+        if "temperature" in data_dictionary:
+            display_parts.append(f"Temperature: {data_dictionary['temperature']}°C")
+        if "time" in data_dictionary:
+            display_parts.append(f"Time: {data_dictionary['time']}")
+
+        self.message = " | ".join(display_parts)
 
     def __str__(self):
-        """
-        Return a summary of the display's current message.
-        """
-        return f"Display {self.display_identifier}: {self.message_text}"
+        return f"Display at {self.location}: {self.message}"
