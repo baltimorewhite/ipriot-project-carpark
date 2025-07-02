@@ -1,3 +1,4 @@
+from pathlib import Path
 from display import Display
 from sensor import Sensor
 
@@ -13,7 +14,8 @@ class CarPark:
         location,
         capacity,
         registered_plate_numbers=None,
-        registered_displays=None
+        registered_displays=None,
+        log_file=Path("log.txt")
     ):
         """
         Initializes a new instance of the CarPark class.
@@ -27,6 +29,7 @@ class CarPark:
         self.capacity = capacity
         self.registered_plate_numbers = registered_plate_numbers or []
         self.registered_displays = registered_displays or []
+        self.log_file = log_file
 
     def __str__(self):
         """
