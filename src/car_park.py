@@ -1,4 +1,5 @@
 from pathlib import Path
+from datetime import datetime  # we'll use this to timestamp entries
 from display import Display
 from sensor import Sensor
 
@@ -29,7 +30,8 @@ class CarPark:
         self.capacity = capacity
         self.registered_plate_numbers = registered_plate_numbers or []
         self.registered_displays = registered_displays or []
-        self.log_file = log_file
+        self.log_file = log_file if isinstance(log_file, Path) else Path(log_file)
+        self.log_file.touch(exist_ok=True)  # create the file if it doesn't exist
 
     def __str__(self):
         """
@@ -68,6 +70,7 @@ class CarPark:
         """
         self.registered_plate_numbers.append(plate_number)
         self.update_displays()
+        self._log_car_activity(plate_number, "entered")
 
     def remove_car(self, plate_number):
         """
@@ -80,6 +83,7 @@ class CarPark:
             raise ValueError(f"Plate number {plate_number} not found in the car park.")
         self.registered_plate_numbers.remove(plate_number)
         self.update_displays()
+        self._log_car_activity(plate_number, "exited")
 
     def update_displays(self):
         """
@@ -90,3 +94,11 @@ class CarPark:
         }
         for display in self.registered_displays:
             display.update(display_data)
+
+    def _log_car_activity(self, plate, action):
+        """
+        Writes an entry to the car park log file with plate, action, and timestamp.
+        """
+        with self.log_file.open("a") as f:
+            f.write(f"{plate} {action} at {datetime.now():%Y-%m-%d %H:%M:%S}\n")
+
