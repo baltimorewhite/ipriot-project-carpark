@@ -1,0 +1,6 @@
+{
+    "location": "moondalup",
+    "capacity": 100,
+    "log_file": "moondalup.txt",
+    "registered_plate_numbers": []
+}

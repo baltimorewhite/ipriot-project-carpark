@@ -70,6 +70,22 @@ class TestCarPark(unittest.TestCase):
       def tearDown(self):
           Path("new_log.txt").unlink(missing_ok=True)
 
+      def test_car_park_can_be_loaded_from_config_file(self):
+          config_path = Path("test_config.json")
+          config_path.write_text('''{
+              "location": "West Wing Lot",
+              "capacity": 45,
+              "registered_plate_numbers": ["ZZZ-999"],
+              "log_file": "log.txt"
+          }''')
+
+          car_park = CarPark.from_config(config_path)
+
+          self.assertEqual(car_park.location, "West Wing Lot")
+          self.assertEqual(car_park.capacity, 45)
+          self.assertEqual(car_park.registered_plate_numbers, ["ZZZ-999"])
+
+          config_path.unlink()
 
 
 if __name__ == "__main__":

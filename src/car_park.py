@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 from datetime import datetime  # we'll use this to timestamp entries
 from display import Display
@@ -101,4 +102,36 @@ class CarPark:
         """
         with self.log_file.open("a") as f:
             f.write(f"{plate} {action} at {datetime.now():%Y-%m-%d %H:%M:%S}\n")
+
+    @classmethod
+    def from_config(cls, config_file=Path("config.json")):
+        """
+        Creates a CarPark object from a config JSON file.
+        """
+        config_file = config_file if isinstance(config_file, Path) else Path(config_file)
+        with config_file.open() as f:
+            config = json.load(f)
+
+        return cls(
+            location=config["location"],
+            capacity=config["capacity"],
+            log_file=config["log_file"],
+            registered_plate_numbers=config.get("registered_plate_numbers", [])
+        )
+
+    def write_config(self, filename=Path("config.json")):
+        """
+        Saves the car park's location, capacity, log file path, and plate numbers to a config file.
+        """
+        config_data = {
+            "location": self.location,
+            "capacity": self.capacity,
+            "log_file": str(self.log_file),
+            "registered_plate_numbers": self.registered_plate_numbers
+        }
+
+        filename = filename if isinstance(filename, Path) else Path(filename)
+        with filename.open("w") as f:
+            json.dump(config_data, f, indent=4)
+
 
